@@ -1,7 +1,7 @@
 """
 Blender plugin to visualize particle-based simulation resultsa stored as 
 an Unstructred Grid in the VTK-XML-Fileformat.
-author:me@diehlpk.de
+author:diehlpk
 date: 13.10.2014
 """
 bl_info = {
