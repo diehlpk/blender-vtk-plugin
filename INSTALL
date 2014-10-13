@@ -1,0 +1,18 @@
+
+1) Requirements
+
+	Blender >= 2.69
+	VTK python *
+	
+2) Installation
+
+	mkdir -p ~/.config/blender/2.69/scripts/addons/vtk_importer/
+	cp __init__.py ~/.config/blender/2.69/scripts/addons/vtk_importer/
+	
+3) Activation
+	blender
+	File -> User Preferences -> Addons -> Import-Export
+	Activate: Import-Export: VTK importer 
+
+* Note: There are no python bindings available for python 3.x, which is used
+	by blender >= 2.69. 
