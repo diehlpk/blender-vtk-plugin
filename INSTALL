@@ -6,8 +6,15 @@
 	
 2) Installation
 
+	2.1) On fedora-based systems
+
 	mkdir -p ~/.config/blender/2.69/scripts/addons/vtk_importer/
 	cp __init__.py ~/.config/blender/2.69/scripts/addons/vtk_importer/
+
+	2.2) On debian-based systems
+	
+	mkdir -p ~/.blender/2.62/scripts/addons/vtk-importer
+	cp __init__.py ~/.blender/2.62/scripts/addons/vtk-importer
 	
 3) Activation
 	blender
