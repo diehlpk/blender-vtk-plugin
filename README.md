@@ -1,8 +1,5 @@
 blender-vtk-plugin
 ==================
-@author diehlpk
-@date 2014-09
-@version 0.0.1
 
 Purpose
 -----------------
