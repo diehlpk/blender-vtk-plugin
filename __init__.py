@@ -30,6 +30,12 @@ from bpy.props import (StringProperty,
 
 
 def addParticle(x, y, z, r):
+	"""Adds a primitive uV sphere to the blender engine
+	@param x X coordinate of the center of the sphere
+	@param y Y coordinate of the center of the sphre
+	@param z Z Coordinate of the center of the sphre
+	@param r Radius of the sphere
+	"""
 	bpy.ops.mesh.primitive_uv_sphere_add(
 		segments=6,
 		ring_count=6,
@@ -43,7 +49,12 @@ def addParticle(x, y, z, r):
 		)
 	)
 
-def ValuetoRGB(minimum, maximum, value):
+def ValueToRGB(minimum, maximum, value):
+	""" Converts the value to a RGB map
+	@param minimum The minimum of all values
+	@param maximum The maximum of all values
+	@param value The value
+	"""
 	minimum , maximum = float(minimum), float(maximum)
 	ratio = 2 * (value-minimum) / (maximum-minimum)
 	b = int(max(0,255*(1-ratio)))
@@ -67,9 +78,14 @@ class ImportVTK(Operator, ImportHelper):
 		return context.object is not None
 
 	def execute(self, context):
+
+		"""Configuration"""
+		radius = 0.01
+		name = "1DColor"
+
 		bpy.ops.object.select_all(action='DESELECT')
 
-		addParticle(0, 0, 0, 0.01)
+		addParticle(0, 0, 0, radius)
 		self.sphere = bpy.context.object
 		self.sphere.name = 'vtk_import_root_object'
 
@@ -78,7 +94,7 @@ class ImportVTK(Operator, ImportHelper):
 
 		with open(self.filepath, 'r') as f:
 			tree = ElementTree.parse(f)
-
+	
 		for node in tree.getiterator('DataArray'):
 			if (node.attrib.get('Name') == 'Points' or node.attrib.get('Name') == 'coordinates'):
 
@@ -89,14 +105,44 @@ class ImportVTK(Operator, ImportHelper):
 				text = text.lstrip(' ').rstrip(' ')
 				splitted = text.split(' ')
 				pos = []
-				index = 0
 				for element in splitted:
 					pos.append(element)
 					if (len(pos) == dim):
 						points.append(pos)
 						pos = []
-						index = index + 1
-		
+
+			if (node.attrib.get('Name') == name and len(name) > 0 ):
+				dim = int(node.attrib.get('NumberOfComponents'))
+				colors = []
+				if(dim == 1):
+					text = re.sub(" +" , "" , node.text)
+					text = re.sub(" ", "" , text)
+					text = re.sub("\t", "" , text)
+					text = text.lstrip().rstrip()
+					splitted = text.split("\n")
+					for element in splitted:
+						colors.append(float(element))
+						
+					minimum = min(colors)
+					maximum = max(colors)
+
+					for i in range(len(colors)):
+						m = bpy.data.materials.new(str(i))
+						m.diffuse_color = ValueToRGB(minimum,maximum,colors[i])
+						material.append(m)
+				#if(dim == 3):	
+				#	text = re.sub("\n", "", node.text)
+				#	text = re.sub("\t", "", text)
+				#	text = re.sub(" +", " ", text)
+				#	text = text.lstrip(' ').rstrip(' ')
+				#	splitted = text.split(' ')
+				#	color = []
+				#	for element in splitted:
+				#		pos.append(element)
+				#		if (len(color) == dim):
+				#			colors.append(color)
+				#			color = []
+		index = 0
 		for i in range(len(points)):
 				
 			ob = self.sphere.copy()
@@ -105,6 +151,8 @@ class ImportVTK(Operator, ImportHelper):
 			pos = points[i]
 			ob.location = (float(pos[0]), float(pos[1]), float(pos[2]))
 			bpy.context.scene.objects.link(ob)
+			ob.data.materials.append(material[i])
+			index = index + 1
 				
 		bpy.ops.object.select_all(action='DESELECT')
 		bpy.ops.object.select_pattern(pattern='vtk_import_root_object',case_sensitive=False, extend=False)
