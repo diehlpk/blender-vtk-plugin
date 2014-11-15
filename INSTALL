@@ -20,6 +20,15 @@
 	blender
 	File -> User Preferences -> Addons -> Import-Export
 	Activate: Import-Export: VTK importer 
+4) Configuration
+	Open __init__.py
+	Edit """Configuration"""
+	
+	radius = 0.01 Radius of the sphere in bldender
+	name = "" Name of the vtk array with the color information
+
+	Note: Color information has to be scalar or three dimensional and is 
+		transformed to an RGB map. 
 
 * Note: There are no python bindings available for python 3.x, which is used
 	by blender >= 2.69. 
