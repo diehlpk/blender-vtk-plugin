@@ -43,6 +43,13 @@ def addParticle(x, y, z, r):
 		)
 	)
 
+def ValuetoRGB(minimum, maximum, value):
+	minimum , maximum = float(minimum), float(maximum)
+	ratio = 2 * (value-minimum) / (maximum-minimum)
+	b = int(max(0,255*(1-ratio)))
+	r = int(max(0,255*(1-ratio)))
+	g = 255 - b - r
+	return r, g, b
 
 class ImportVTK(Operator, ImportHelper):
 
@@ -66,6 +73,9 @@ class ImportVTK(Operator, ImportHelper):
 		self.sphere = bpy.context.object
 		self.sphere.name = 'vtk_import_root_object'
 
+		points = []
+		material = []
+
 		with open(self.filepath, 'r') as f:
 			tree = ElementTree.parse(f)
 
@@ -83,15 +93,19 @@ class ImportVTK(Operator, ImportHelper):
 				for element in splitted:
 					pos.append(element)
 					if (len(pos) == dim):
-						ob = self.sphere.copy()
-						ob.name = 'particle_' + str(index)
-						ob.data = self.sphere.data.copy()
-						ob.location = (
-							float(pos[0]), float(pos[1]), float(pos[2]))
-						bpy.context.scene.objects.link(ob)
+						points.append(pos)
 						pos = []
 						index = index + 1
 		
+		for i in range(len(points)):
+				
+			ob = self.sphere.copy()
+			ob.name = 'particle_' + str(index)
+			ob.data = self.sphere.data.copy()
+			pos = points[i]
+			ob.location = (float(pos[0]), float(pos[1]), float(pos[2]))
+			bpy.context.scene.objects.link(ob)
+				
 		bpy.ops.object.select_all(action='DESELECT')
 		bpy.ops.object.select_pattern(pattern='vtk_import_root_object',case_sensitive=False, extend=False)
 		bpy.ops.object.delete()
