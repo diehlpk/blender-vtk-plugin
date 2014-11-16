@@ -62,6 +62,16 @@ def ValueToRGB(minimum, maximum, value):
 	g = 255 - b - r
 	return r, g, b
 
+def ValuesToRGB(ranges, values):
+	""" Converts a three dimensional tuple to a RGB map
+	@param ranges The mininum and maximum of each dimension
+	@param values The value to transform
+	"""
+	r = (float(values[0]) - float(ranges[0][0])) / float(ranges[0][1])
+	g = (float(values[1]) - float(ranges[1][0])) / float(ranges[1][1])
+	b = (float(values[2]) - float(ranges[2][0])) / float(ranges[2][1])
+	return r, g, b
+
 class ImportVTK(Operator, ImportHelper):
 
 	"""VTK unstructured grid importer"""
@@ -80,8 +90,8 @@ class ImportVTK(Operator, ImportHelper):
 	def execute(self, context):
 
 		"""Configuration"""
-		radius = 0.01
-		name = "1DColor"
+		radius = 0.05
+		name = "3DColor"
 
 		bpy.ops.object.select_all(action='DESELECT')
 
@@ -130,20 +140,35 @@ class ImportVTK(Operator, ImportHelper):
 						m = bpy.data.materials.new(str(i))
 						m.diffuse_color = ValueToRGB(minimum,maximum,colors[i])
 						material.append(m)
-				#if(dim == 3):	
-				#	text = re.sub("\n", "", node.text)
-				#	text = re.sub("\t", "", text)
-				#	text = re.sub(" +", " ", text)
-				#	text = text.lstrip(' ').rstrip(' ')
-				#	splitted = text.split(' ')
-				#	color = []
-				#	for element in splitted:
-				#		pos.append(element)
-				#		if (len(color) == dim):
-				#			colors.append(color)
-				#			color = []
+				if(dim == 3):	
+					text = re.sub("\n", "", node.text)
+					text = re.sub("\t", "", text)
+					text = re.sub(" +", " ", text)
+					text = text.lstrip(' ').rstrip(' ')
+					splitted = text.split(' ')
+					color = []
+					for element in splitted:
+						color.append(element)
+						if (len(color) == dim):
+							colors.append(color)
+							color = []
+					
+					minR = min(zip(range(len(colors)),colors[0]))[1]
+					maxR = max(zip(range(len(colors)),colors[0]))[1]
+					minG = min(zip(range(len(colors)),colors[0]))[1]
+					maxG = max(zip(range(len(colors)),colors[0]))[1]
+					minB = min(zip(range(len(colors)),colors[0]))[1]
+					maxB = max(zip(range(len(colors)),colors[0]))[1]
+					ranges = [[minR,maxR],[minG,maxG],[minB,maxB]]
+					
+					for i in range(len(colors)):
+						m = bpy.data.materials.new(str(i))
+						m.diffuse_color = ValuesToRGB(ranges,colors[i])
+						material.append(m)										
 		index = 0
-		for i in range(len(points)):
+		lenPoints = len(points)
+		lenMaterial = len(material)
+		for i in range(lenPoints):
 				
 			ob = self.sphere.copy()
 			ob.name = 'particle_' + str(index)
@@ -151,7 +176,8 @@ class ImportVTK(Operator, ImportHelper):
 			pos = points[i]
 			ob.location = (float(pos[0]), float(pos[1]), float(pos[2]))
 			bpy.context.scene.objects.link(ob)
-			ob.data.materials.append(material[i])
+			if(lenPoints==lenMaterial):
+				ob.data.materials.append(material[i])
 			index = index + 1
 				
 		bpy.ops.object.select_all(action='DESELECT')
