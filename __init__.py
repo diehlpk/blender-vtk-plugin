@@ -5,8 +5,7 @@ author:diehlpk
 date: 13.10.2014
 """
 
-bl_info = {
-    "name":	"VTK-Importer",
+bl_info = {"name": "VTK-Importer",
         "author": "diehlpk",
         "blender": (2, 6, 9),
         "version": (0, 0, 1),
