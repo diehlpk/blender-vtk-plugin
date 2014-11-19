@@ -1,6 +1,5 @@
 """
-Blender plugin to visualize particle-based simulation resultsa stored as 
-an Unstructred Grid in the VTK-XML-Fileformat.
+Blender plugin to import vtk unstrucutred grids
 author:diehlpk
 date: 13.10.2014
 """
@@ -94,7 +93,7 @@ class ImportVTK(Operator, ImportHelper):
     def execute(self, context):
         """Configuration"""
         radius = 0.05
-        name = "1DColor"
+        name = ""
 
         bpy.ops.object.select_all(action='DESELECT')
 
