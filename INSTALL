@@ -22,7 +22,8 @@
 	Activate: Import-Export: VTK importer
  
 4) Configuration
-	Open __init__.py
+	vi __init__.py
+
 	Edit """Configuration"""
 	
 	radius = 0.01 Radius of the sphere in bldender
@@ -30,6 +31,16 @@
 
 	Note: Color information has to be scalar or three dimensional and is 
 		transformed to an RGB map. 
+5) Example
+	vi __init__.py
 
+	Edit """Configuration"""
+	
+	radius = 0.04
+	name = "3DColor"
+
+	Load example.vtk into blender to reproduce the example.png. Or open
+	example.blender to reproduce the image.
+	
 * Note: There are no python bindings available for python 3.x, which is used
 	by blender >= 2.69. 
