@@ -40,7 +40,7 @@
 	name = "3DColor"
 
 	Load example.vtk into blender to reproduce the example.png. Or open
-	example.blender to reproduce the image.
+	example.blend to reproduce the image.
 	
 * Note: There are no python bindings available for python 3.x, which is used
 	by blender >= 2.69. 
