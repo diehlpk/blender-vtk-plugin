@@ -19,7 +19,7 @@ Please read the file CHANGELOG
 Support and contact information
 -----------------
 
-Please support bugs at the github page of the project and contributions to the project as an pull request.
+Please submit bugs at the github page of the project and contributions to the project as pull requests.
 
 Legal information
 -----------------
