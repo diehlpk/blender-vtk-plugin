@@ -40,6 +40,3 @@
 
 	Load example.vtk into blender to reproduce the example.png. Or open
 	example.blend to reproduce the image.
-	
-Note: There are no python bindings available for python 3.x, which is used
-	by blender >= 2.69. 
