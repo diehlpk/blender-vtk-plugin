@@ -25,3 +25,12 @@ Legal information
 -----------------
 
 Please read the file LICENSE
+
+Example
+-----------------
+
+Data visualized in Paraview | Data rendered with Blender
+:------------------------:|:----------------------------------------:
+![Mesh](./example/paraview.png?raw=true "Mesh generated with gmesh")|![Exodus](./example.png?raw=true "Mesh generated with gmesh")
+
+
