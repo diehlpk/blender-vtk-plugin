@@ -31,6 +31,6 @@ Example
 
 Data visualized in Paraview | Data rendered with Blender
 :------------------------:|:----------------------------------------:
-![Mesh](./example/paraview.png?raw=true "Mesh generated with gmesh")|![Exodus](./example.png?raw=true "Mesh generated with gmesh")
+![Mesh](./example/paraview.png?raw=true "Data visualized in Paraview")|![Exodus](./example/example.png?raw=true "Data rendered with Blender")
 
 
