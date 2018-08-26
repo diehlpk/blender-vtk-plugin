@@ -1,4 +1,4 @@
-blender-vtk-plugin
+blender-vtk-plugin [![DOI](https://zenodo.org/badge/23790943.svg)](https://zenodo.org/badge/latestdoi/23790943)
 ==================
 
 Purpose
